@@ -29,7 +29,7 @@ export class PokemonService {
   }
 
   findAll() {
-    return `This action returns all pokemon`;
+    return this.pokemonModel.find();
   }
 
   async findOne(term: string) {
@@ -70,8 +70,20 @@ export class PokemonService {
       this.handleException(error);
     }
   }
-  remove(id: number) {
-    return `This action removes a #${id} pokemon`;
+  async remove(id: string) {
+    //en el caso de que no validaramos si el id es de mongo y se pudiera eliminar por varias cosas
+    // return { id };
+    // const pokemon = await this.findOne(id);
+    // await pokemon.deleteOne(); //para borrar un registro de la base de datos se usa deleteOne o deleteMany si se quieren borrar varios registros a la vez
+
+    //ASI TIRARIA UN STATUS 200 MIENTRAS SEA UN ID DE MONGO, INCLUSO SI EL ID NO EXISTE
+    // const result = await this.pokemonModel.findByIdAndDelete(id);
+    // return result;
+
+    const result = await this.pokemonModel.deleteOne({ _id: id });
+    if (result.deletedCount === 0)
+      throw new BadRequestException(`Pokemon with id ${id} not found`);
+    return;
   }
 
   private handleException(error: any) {
