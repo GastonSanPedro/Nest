@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose/dist';
 import { isValidObjectId, Model } from 'mongoose';
 import { Pokemon } from './entities/pokemon.entity';
 
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 
@@ -28,8 +29,14 @@ export class PokemonService {
     }
   }
 
-  findAll() {
-    return this.pokemonModel.find();
+  findAll(paginationDto: PaginationDto) {
+    const { limit = 10, offset = 0 } = paginationDto; //seteo por defecot un numero si no viene
+    return this.pokemonModel
+      .find()
+      .limit(limit)
+      .skip(offset)
+      .sort({ no: 1 })
+      .select('-__v'); //sort({no:1}) para que ordene por numero de pokemon, select para que no devuelva el campo __v
   }
 
   async findOne(term: string) {
