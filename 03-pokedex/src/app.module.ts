@@ -6,6 +6,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { CommonModule } from './common/common.module';
 import { EnvConfiguration } from './config/app.config';
+import { JoiValidationSchema } from './config/joi.validation';
 import { PokemonModule } from './pokemon/pokemon.module';
 import { SeedModule } from './seed/seed.module';
 
@@ -13,6 +14,7 @@ import { SeedModule } from './seed/seed.module';
   imports: [
     ConfigModule.forRoot({
       load: [EnvConfiguration],
+      validationSchema: JoiValidationSchema,
     }), //ES IMPORTANTE EL ORDEN EN DONDE LO COLOCO, AL INICIO
 
     ServeStaticModule.forRoot({

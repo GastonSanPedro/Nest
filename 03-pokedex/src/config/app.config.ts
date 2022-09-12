@@ -4,5 +4,5 @@ export const EnvConfiguration = () => ({
   mongoDb:
     process.env.MONGODB || 'mongodb://localhost:27017/nest-pokemon-gaston',
   port: process.env.PORT || 3002,
-  defaultLimit: process.env.DEFAULT_LIMIT || 7,
+  defaultLimit: +process.env.DEFAULT_LIMIT || 7,
 });
